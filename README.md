@@ -51,5 +51,3 @@ Azure Kinect (백그라운드 스레드 · 30fps)
 | `ActionRecognizer.cs` | ONNX MLP 추론. IDLE/RAISED/COOLDOWN 상태머신 | 상태머신으로 트리거 1회만 발동, 쿨다운 관리 |
 | `ActionDispatcher.cs` | 이벤트 라우터 | `OnArmRaise` UnityEvent — 씬 매니저 연결 지점 |
 | `GreetingController.cs` | 테스트용 임시 수신자 | `SetTrigger("Greet")` — 씬 매니저로 교체 예정 |
-
-여기서부터는 표 마크다운에서 완전히 벗어난 일반 텍스트 영역입니다. 자유롭게 내용을 이어 작성하시면 됩니다.
