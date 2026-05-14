@@ -14,3 +14,23 @@
 - [ ]  **Microsoft Azure Kinect Samples** 클론
     - https://github.com/microsoft/Azure-Kinect-Samples
 - [ ]  **Unity (URP) 6.4** 프로젝트에서 동작 확인
+
+1. 전체 파이프라인 구조
+2. Azure Kinect (백그라운드 스레드 · 30fps)
+    └─ BackgroundData { Bodies[], ColorImage, DepthImage }
+         ↓  main_single.Update() 매 프레임
+    TrackerHandler_single
+    └─ absoluteJointRotations[32] · jointPositions[32]
+         ↓                    ↓
+    PuppetAvatar        SkeletonFeatureExtractor
+    (리타겟팅)           └─ 슬라이딩 윈도우 30프레임
+                              float[630] → OnWindowReady
+                               ↓  N프레임마다
+                      ActionRecognizer (ONNX MLP)
+                      └─ IDLE → RAISED(트리거 1회) → COOLDOWN → IDLE
+                               ↓
+                      ActionDispatcher
+                      └─ OnArmRaise.Invoke()
+                               ↓  ← 씬 매니저 연결 지점
+                      SceneManager.OnPlayerAction()
+   <img width="672" height="514" alt="image" src="https://github.com/user-attachments/assets/d362ad74-6deb-4e4a-a199-f5345023447a" />
