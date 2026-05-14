@@ -16,7 +16,7 @@
 - [ ]  **Unity (URP) 6.4** 프로젝트에서 동작 확인
 
 1. 전체 파이프라인 구조
-2. Azure Kinect (백그라운드 스레드 · 30fps)
+Azure Kinect (백그라운드 스레드 · 30fps)
     └─ BackgroundData { Bodies[], ColorImage, DepthImage }
          ↓  main_single.Update() 매 프레임
     TrackerHandler_single
