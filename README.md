@@ -1,7 +1,5 @@
 # Capstone-Design-II
-2026-1 캡스톤디자인 II 및 졸업전시
-
-### *Work In Progress
+2026-1 캡스톤디자인 II 및 졸업전시  *Work In Progress
 
 ## 0. 프로젝트 세팅
 
@@ -17,10 +15,9 @@
     - https://github.com/microsoft/Azure-Kinect-Samples
 - [ ]  **Unity (URP) 6.4** 프로젝트에서 동작 확인
 
-1. 전체 파이프라인 구조
+## 1. 전체 파이프라인 구조
 
 ```markdown
-```text
 Azure Kinect (백그라운드 스레드 · 30fps)
  └ BackgroundData { Bodies[], ColorImage, DepthImage }
        ↓  main_single.Update() 매 프레임
@@ -41,3 +38,18 @@ Azure Kinect (백그라운드 스레드 · 30fps)
 ```
 
 <img width="672" height="514" alt="image" src="https://github.com/user-attachments/assets/d362ad74-6deb-4e4a-a199-f5345023447a" />
+
+## 2. 스크립트별 역할 요약
+
+| 파일명 | 역할 | 씬 매니저 관점 |
+| :--- | :--- | :--- |
+| `SkeletalTrackingProvider.cs` | Kinect 백그라운드 스레드 | 건드릴 필요 없음. `main_single` 이 자동 구동 |
+| `main_single.cs` | 메인 컨트롤러 | `TrackerHandler`, `PuppetAvatar`, `FeatureExtractor` 연결 관리 |
+| `TrackerHandler_single.cs` | 1인 Lock 추적. 관절 데이터 매 프레임 갱신 | `absoluteJointRotations` / `jointPositions` 제공 |
+| `PuppetAvatar_single.cs` | Kinect 관절 $\rightarrow$ Humanoid 리타겟팅 | `LateUpdate` 에서 본 위치 갱신 $\rightarrow$ `FeatureExtractor` 가 읽음 |
+| `SkeletonFeatureExtractor.cs` | 피처 추출 | 30프레임 슬라이딩 윈도우 구성 후 `OnWindowReady` 발행 |
+| `ActionRecognizer.cs` | ONNX MLP 추론. IDLE/RAISED/COOLDOWN 상태머신 | 상태머신으로 트리거 1회만 발동, 쿨다운 관리 |
+| `ActionDispatcher.cs` | 이벤트 라우터 | `OnArmRaise` UnityEvent — 씬 매니저 연결 지점 |
+| `GreetingController.cs` | 테스트용 임시 수신자 | `SetTrigger("Greet")` — 씬 매니저로 교체 예정 |
+
+여기서부터는 표 마크다운에서 완전히 벗어난 일반 텍스트 영역입니다. 자유롭게 내용을 이어 작성하시면 됩니다.
