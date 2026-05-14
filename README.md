@@ -1,6 +1,8 @@
 # Capstone-Design-II
 2026-1 캡스톤디자인 II 및 졸업전시
 
+### *Work In Progress
+
 ## 0. 프로젝트 세팅
 
 ### Azure Kinect SDK 설치
